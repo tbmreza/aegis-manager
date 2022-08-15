@@ -1,6 +1,8 @@
+use std::collections::HashMap;
+
 /// Stop docker containers with "aegis" in its name.
-pub fn stop_aegis_containers() {
-    docker_stop(container_ids());
+pub fn stop_aegis_apps() {
+    docker_stop(docker_ps_quiet());
 }
 
 /// Get space-separated aegis containers' IDs.
@@ -22,7 +24,7 @@ pub fn stop_aegis_containers() {
 //     }
 // }
 
-pub fn container_ids() -> Vec<String> {
+pub fn docker_ps_quiet() -> Vec<String> {
     use std::process::{Command, Output};
 
     // docker ps --quiet --filter "name=aegis"
@@ -44,6 +46,33 @@ pub fn container_ids() -> Vec<String> {
     }
 }
 
+pub fn docker_ps_format_id_names() -> HashMap<String, String> {
+    use std::process::{Command, Output};
+
+    // docker ps --format '{{ .ID }}\t{{ .Names }}'
+    let output = Command::new("docker")
+        .args(["ps", "--format"])
+        .arg("{{ .ID }}\t{{ .Names }}")
+        .output();
+
+    match output {
+        Ok(Output { stdout: bytes, .. }) => {
+            let stdout = String::from_utf8(bytes).unwrap_or_default();
+            let pairs = stdout.split('\n').filter(|x| !x.is_empty());
+
+            let mut m: HashMap<String, String> = HashMap::new();
+            for pair in pairs {
+                let mut kv = pair.split('\t');
+                if let (Some(v), Some(k)) = (kv.next(), kv.next()) {
+                    m.insert(k.to_string(), v.to_string());
+                }
+            }
+            m
+        }
+        _ => HashMap::new(),
+    }
+}
+
 fn docker_stop(containers: Vec<String>) {
     use std::process::Command;
 
@@ -57,12 +86,22 @@ fn docker_stop(containers: Vec<String>) {
     cmd.status().expect("todo");
 }
 
+pub fn docker_stop_by_id(container: &str) {
+    use std::process::Command;
+
+    Command::new("docker")
+        .arg("stop")
+        .arg(container)
+        .status()
+        .expect("todo");
+
+    println!("INFO: docker stop {}", &container);
+}
+
 #[test]
 fn test_docker_stop() {
-    let containers = container_ids();
+    let containers = docker_ps_quiet();
     docker_stop(containers);
 }
 
-pub fn launch_tui() {
-    println!("launching beautiful tui...");
-}
+// TODO add regression test to spin helloworld containers, then cargo test

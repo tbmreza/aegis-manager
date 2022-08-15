@@ -27,16 +27,16 @@ struct StopArgs {
 fn main() {
     let args = Cli::parse();
 
-    use aegis::task::*;
+    use aegis::{task, tui};
     use Action::*;
 
     match args {
         Cli {
             action: Stop(StopArgs { interactive: false }),
-        } => stop_aegis_containers(),
+        } => task::stop_aegis_apps(),
         Cli {
             action: Stop(StopArgs { interactive: true }),
-        } => launch_tui(),
+        } => tui::tui(),
         _ => println!("unimplemented"),
     }
 }

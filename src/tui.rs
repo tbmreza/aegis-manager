@@ -40,7 +40,6 @@ pub fn tui() {
     siv.add_layer(
         Dialog::around(select_aegis_service().scrollable().fixed_size((20, 10)))
             .title("Running aegis apps:"),
-        // TODO vertical split ps_board
     );
 
     siv.run();
@@ -50,7 +49,7 @@ fn send_docker_stop(siv: &mut Cursive, app_id: &str) {
     use crate::task::docker_stop_by_id;
     docker_stop_by_id(app_id);
 
-    let text = format!("Stopping {} docker container...", app_id);
+    let text = format!("Stopped docker container `{}`.", app_id);
     siv.add_layer(Dialog::around(TextView::new(text)).button("OK", |s| {
         s.pop_layer();
     }));

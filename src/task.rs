@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 /// Stop docker containers with "aegis" in its name.
 pub fn stop_aegis_apps() {
-    docker_stop(docker_ps_quiet());
+    docker_stop(docker_ps_quiet("hello"));
 }
 
 /// Get space-separated aegis containers' IDs.
@@ -24,13 +24,13 @@ pub fn stop_aegis_apps() {
 //     }
 // }
 
-pub fn docker_ps_quiet() -> Vec<String> {
+pub fn docker_ps_quiet(name_filter: &str) -> Vec<String> {
     use std::process::{Command, Output};
 
     // docker ps --quiet --filter "name=aegis"
     let output = Command::new("docker")
         .args(["ps", "-q"])
-        .args(["-f", "name=hello"])
+        .args(["-f", &format!("name={}", name_filter)])
         .output();
 
     match output {
@@ -83,6 +83,7 @@ fn docker_stop(containers: Vec<String>) {
         println!("INFO: docker stop {}", &container);
         cmd.arg(container);
     }
+    // TODO assert cmd arity?
     cmd.status().expect("todo");
 }
 
@@ -100,7 +101,7 @@ pub fn docker_stop_by_id(container: &str) {
 
 #[test]
 fn test_docker_stop() {
-    let containers = docker_ps_quiet();
+    let containers = docker_ps_quiet("hello");
     docker_stop(containers);
 }
 

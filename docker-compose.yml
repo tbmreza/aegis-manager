@@ -1,0 +1,11 @@
+version: '3'
+services:
+  helloworldz:
+    image: alpine:latest
+    command: tail -F /dev/null
+  hellow:
+    image: alpine:latest
+    command: tail -F /dev/null
+  helloworldie:
+    image: alpine:latest
+    command: tail -F /dev/null

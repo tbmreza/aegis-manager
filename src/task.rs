@@ -5,25 +5,7 @@ pub fn stop_aegis_apps() {
     docker_stop(docker_ps_quiet("hello"));
 }
 
-/// Get space-separated aegis containers' IDs.
-// pub fn container_ids() -> String {
-//     use std::process::{Command, Output};
-//
-//     // docker ps --quiet --filter "name=aegis"
-//     let output = Command::new("docker")
-//         .args(["ps", "-q"])
-//         .args(["-f", "name=hello"])
-//         .output();
-//
-//     match output {
-//         Ok(Output { stdout: bytes, .. }) => {
-//             let stdout = String::from_utf8(bytes).unwrap_or(String::new());
-//             stdout.replace("\n", " ").trim().to_owned()
-//         }
-//         _ => String::new(),
-//     }
-// }
-
+/// Get docker container IDs.
 pub fn docker_ps_quiet(name_filter: &str) -> Vec<String> {
     use std::process::{Command, Output};
 

@@ -1,3 +1,4 @@
+use aegis::{task, tui};
 use clap::{Parser, StructOpt};
 
 #[derive(StructOpt, Debug)]
@@ -25,18 +26,14 @@ struct StopArgs {
 }
 
 fn main() {
-    let args = Cli::parse();
-
-    use aegis::{task, tui};
     use Action::*;
-
-    match args {
+    match Cli::parse() {
         Cli {
             action: Stop(StopArgs { interactive: false }),
         } => task::stop_aegis_apps(),
         Cli {
             action: Stop(StopArgs { interactive: true }),
-        } => tui::tui(),
+        } => tui::index(),
         _ => println!("unimplemented"),
     }
 }

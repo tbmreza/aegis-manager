@@ -1,5 +1,4 @@
 use std::collections::HashMap;
 
-#[derive(Default)]
+#[derive(Debug, Default, Clone, PartialEq)]
 pub struct RunningApps(pub HashMap<String, String>);
-// TODO impl PartialEq

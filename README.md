@@ -12,6 +12,9 @@ Convenient [DMP aegis] development.
 ```sh
 aegis start  # Lists available profiles, e.g. Frontend, Backend, Mobile, and All
 aegis start 1
+# markdown profiles table?
+# 1  Frontend: redis nginx cuirass bloodthorn tarrasque
+# 11 Alunalun: redis nginx tarrasque
 ```
 
 - Stop some (interactively) or all aegis containers.

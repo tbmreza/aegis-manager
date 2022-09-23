@@ -1,5 +1,32 @@
 use std::collections::HashMap;
 
+pub fn up_aegis_apps(profile: u8) {
+    // ROOTPATH: /Volumes/mbiz-volume/aegis
+    // CONTAINER_SETUP_LISTS: redis nginx cuirass bloodthorn tarrasque
+    // docker-compose --env-file=${ROOTPATH}/.env up -d ${CONTAINER_SETUP_LISTS}
+    use std::process::{Command, Output};
+
+    let app_names = match profile {
+        1 => vec!["redis", "nginx", "cuirass", "bloodthorn", "tarrasque"],
+        11 => vec!["redis", "nginx", "tarrasque"],
+        _ => vec![],
+    };
+
+    let output = Command::new("docker-compose")
+        .current_dir("/Volumes/mbiz-volume/aegis")
+        .arg("--env-file=/Volumes/mbiz-volume/aegis/.env")
+        .args(["up", "-d"])
+        .args(app_names)
+        .output();
+
+    match output {
+        Ok(Output { stdout: bytes, .. }) => {
+            println!("{:?}", String::from_utf8(bytes));
+        }
+        e => println!("{:?}", e),
+    }
+}
+
 /// Stop docker containers with "aegis" in its name.
 pub fn stop_aegis_apps() {
     docker_stop(docker_ps_quiet("hello"));
@@ -86,5 +113,3 @@ fn test_docker_stop() {
     let containers = docker_ps_quiet("hello");
     docker_stop(containers);
 }
-
-// TODO add regression test to spin helloworld containers, then cargo test

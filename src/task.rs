@@ -21,7 +21,7 @@ pub fn up_aegis_apps(profile: u8) {
 
     match output {
         Ok(Output { stdout: bytes, .. }) => {
-            println!("{:?}", String::from_utf8(bytes));
+            println!("INFO: {:?}", String::from_utf8(bytes));
         }
         e => println!("{:?}", e),
     }
@@ -29,7 +29,7 @@ pub fn up_aegis_apps(profile: u8) {
 
 /// Stop docker containers with "aegis" in its name.
 pub fn stop_aegis_apps() {
-    docker_stop(docker_ps_quiet("hello"));
+    docker_stop(docker_ps_quiet("aegis"));
 }
 
 /// Get docker container IDs.

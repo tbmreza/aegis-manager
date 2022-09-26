@@ -25,6 +25,14 @@ aegis stop  # Wrapper for `docker stop $(docker ps --filter "name=aegis" -q)`
 
 <br>
 
+## Install
+```sh
+brew tap tbmreza/tools
+brew install aegis-manager
+```
+
+<br>
+
 ## Testing
 
 ```sh

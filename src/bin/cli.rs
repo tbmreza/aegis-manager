@@ -2,6 +2,7 @@ use aegis::{task, tui};
 use clap::{Parser, StructOpt};
 
 #[derive(StructOpt, Debug)]
+#[clap(version)]
 struct Cli {
     #[clap(subcommand)]
     action: Action,
@@ -15,14 +16,13 @@ enum Action {
 
 #[derive(StructOpt, Debug)]
 struct StartArgs {
-    #[clap(default_value = "0")]
-    // `aegis help start` lists available profiles?
+    #[clap(default_value = "0", help = "1 Frontend, 11 Alunalun, 0 All aegis containers")]
     profile: u8,
 }
 
 #[derive(StructOpt, Debug)]
 struct StopArgs {
-    #[clap(short)]
+    #[clap(short, long, help = "Open interactive list of aegis containers")]
     interactive: bool,
 }
 

@@ -2,30 +2,61 @@
 
 Convenient [DMP aegis] development.
 
-[DMP aegis]: https://bitbucket.org/mbizcoid/aegis/src/master
+[dmp aegis]: https://bitbucket.org/mbizcoid/aegis/src/master
 
 ## Features
+
+### Troubleshoot developer's local environment
+
+```sh
+aegis checkhealth [-y]
+```
+
+Common troubles are grouped based on whether or not it makes sense to automate the fix.
+
+#### 1. Troubles reported, fixes suggested.
+
+| Trouble                                                                   | Fix                          |
+| ------------------------------------------------------------------------- | ---------------------------- |
+| `aegis-nginx` container hasn't been restarted since it was first started. | `docker restart aegis-nginx` |
+| `vladmir` and `voodoo` are not running on port xx and yy.                 | `npm run dev`                |
+
+#### 2. Troubles reported, fixes suggested, suggestions performed (on user confirmation).
+
+| Trouble                                                                    | Fix                                                                   |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| VPN (assumed to be at `/opt/cisco/anyconnect/bin/vpn`) state is connected. | `/opt/cisco/anyconnect/bin/vpn -s connect vpn-inter.mbizmarket.my.id` |
+| No aegis containers are running.                                           | `aegis start`                                                         |
 
 ### Manage docker apps
 
 - Start aegis containers.
+
 ```sh
-aegis start  # Lists available profiles, e.g. Frontend, Backend, Mobile, and All
-aegis start 1
-# markdown profiles table?
-# 1  Frontend: redis nginx cuirass bloodthorn tarrasque
-# 11 Alunalun: redis nginx tarrasque
+aegis start [PROFILE]
 ```
 
-- Stop some (interactively) or all aegis containers.
+| Profile name | Applications                             | PROFILE |
+| ------------ | ---------------------------------------- | ------- |
+| Frontend     | redis nginx cuirass bloodthorn tarrasque | 1       |
+| Alunalun     | redis nginx tarrasque                    | 11      |
+
+- Stop all aegis containers. Wrapper for `docker stop $(docker ps --filter "name=aegis" -q)`.
+
 ```sh
-aegis stop -i  # Opens tui. Select an app to stop.
-aegis stop  # Wrapper for `docker stop $(docker ps --filter "name=aegis" -q)`
+aegis stop
+```
+
+- Manage (start, stop) individual aegis container via interactive list.
+
+```sh
+aegis list
 ```
 
 <br>
 
 ## Install
+
 ```sh
 brew tap tbmreza/tools
 brew install aegis-manager

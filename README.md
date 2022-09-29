@@ -13,6 +13,7 @@ aegis checkhealth [-y]
 ```
 
 Common troubles are grouped based on whether or not it makes sense to automate the fix.
+The autofixes must be safe to perform even if status quo is already correct.
 
 #### 1. Troubles reported, fixes suggested.
 
@@ -23,10 +24,10 @@ Common troubles are grouped based on whether or not it makes sense to automate t
 
 #### 2. Troubles reported, fixes suggested, suggestions performed (on user confirmation).
 
-| Trouble                                                                    | Fix                                                                   |
-| -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| VPN (assumed to be at `/opt/cisco/anyconnect/bin/vpn`) state is connected. | `/opt/cisco/anyconnect/bin/vpn -s connect vpn-inter.mbizmarket.my.id` |
-| No aegis containers are running.                                           | `aegis start`                                                         |
+| Trouble                          | Fix                                                                   |
+| -------------------------------- | --------------------------------------------------------------------- |
+| VPN state is disconnected.       | `/opt/cisco/anyconnect/bin/vpn -s connect vpn-inter.mbizmarket.my.id` |
+| No aegis containers are running. | `aegis start`                                                         |
 
 ### Manage docker apps
 

@@ -1,3 +1,9 @@
+// TODO
+pub fn is_disconnected() -> bool {
+    true
+    // false
+}
+
 pub fn disconnect() {
     use std::process::{Command, Output};
 
@@ -42,13 +48,4 @@ pub fn connect() {
         }
         e => println!("{:?}", e),
     }
-}
-
-pub fn run(yes_to_all: bool) {
-    if yes_to_all {
-        println!("invoke fix");
-    } else {
-        println!("wait for user input. if y: invoke fix");
-    }
-    connect();
 }

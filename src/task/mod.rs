@@ -44,7 +44,7 @@ pub fn docker_ps_quiet(name_filter: &str) -> Vec<String> {
 
     match output {
         Ok(Output { stdout: bytes, .. }) => {
-            let stdout = String::from_utf8(bytes).unwrap_or(String::new());
+            let stdout = String::from_utf8(bytes).unwrap_or_default();
             stdout
                 .split('\n')
                 .filter(|x| !x.is_empty())

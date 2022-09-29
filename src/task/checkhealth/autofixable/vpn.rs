@@ -44,6 +44,11 @@ pub fn connect() {
     }
 }
 
-pub fn run() {
-    println!("i am defined in checkhealth/vpn.rs");
+pub fn run(yes_to_all: bool) {
+    if yes_to_all {
+        println!("invoke fix");
+    } else {
+        println!("wait for user input. if y: invoke fix");
+    }
+    connect();
 }

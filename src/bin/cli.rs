@@ -13,7 +13,7 @@ enum Action {
     Start(StartArgs),
     Stop(StopArgs),
     #[clap(alias = "doctor")]
-    Checkhealth,
+    Checkhealth(CheckhealthArgs),
     Deebug,
 }
 
@@ -32,15 +32,19 @@ struct StopArgs {
     interactive: bool,
 }
 
+#[derive(StructOpt, Debug)]
+struct CheckhealthArgs {
+    #[clap(short, help = "Yes to all suggested autofixes")]
+    yes_to_all: bool,
+}
+
 fn main() {
     use Action::*;
     match Cli::parse() {
+        Cli { action: Deebug } => {}
         Cli {
-            action: Deebug,
-        } => task::checkhealth::vpn::connect(),
-        Cli {
-            action: Checkhealth,
-        } => task::checkhealth::run(),
+            action: Checkhealth(CheckhealthArgs { yes_to_all }),
+        } => task::checkhealth::run(yes_to_all),
         Cli {
             action: Start(StartArgs { profile }),
         } => task::up_aegis_apps(profile),

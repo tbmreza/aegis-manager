@@ -113,3 +113,5 @@ fn test_docker_stop() {
     let containers = docker_ps_quiet("hello");
     docker_stop(containers);
 }
+
+pub mod checkhealth;

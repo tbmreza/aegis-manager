@@ -12,11 +12,17 @@ struct Cli {
 enum Action {
     Start(StartArgs),
     Stop(StopArgs),
+    #[clap(alias = "doctor")]
+    Checkhealth,
+    Deebug,
 }
 
 #[derive(StructOpt, Debug)]
 struct StartArgs {
-    #[clap(default_value = "0", help = "1 Frontend, 11 Alunalun, 0 All aegis containers")]
+    #[clap(
+        default_value = "0",
+        help = "1 Frontend, 11 Alunalun, 0 All aegis containers"
+    )]
     profile: u8,
 }
 
@@ -29,6 +35,12 @@ struct StopArgs {
 fn main() {
     use Action::*;
     match Cli::parse() {
+        Cli {
+            action: Deebug,
+        } => task::checkhealth::vpn::connect(),
+        Cli {
+            action: Checkhealth,
+        } => task::checkhealth::run(),
         Cli {
             action: Start(StartArgs { profile }),
         } => task::up_aegis_apps(profile),

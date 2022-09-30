@@ -1,7 +1,25 @@
-// TODO
+pub fn state_output() -> String {
+    use std::process::{Command, Output};
+
+    let output = Command::new("/opt/cisco/anyconnect/bin/vpn")
+        .arg("state")
+        .output();
+
+    match output {
+        Ok(Output { stdout: bytes, .. }) => {
+            let s = String::from_utf8(bytes).unwrap_or_default();
+            println!("INFO: {:?}", s);
+            s
+        }
+        e => {
+            println!("{:?}", e);
+            String::new()
+        }
+    }
+}
+
 pub fn is_disconnected() -> bool {
-    true
-    // false
+    state_output().contains("Disconnected")
 }
 
 pub fn disconnect() {

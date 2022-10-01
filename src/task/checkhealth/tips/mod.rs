@@ -1,9 +1,10 @@
 fn apps_running_on_expected_ports() {
     let expectation = "Apps running on port xx and yy.";
+    println!("CHECKING: {expectation}");
+
     let disappoints = true;
     if disappoints {
-        println!("VIOLATED: {expectation}");
-        println!("npm run dev");
+        println!("FAILED: npm run dev");
     }
 }
 

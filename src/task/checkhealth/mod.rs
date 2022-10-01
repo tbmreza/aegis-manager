@@ -1,11 +1,20 @@
 pub mod autofixable;
 pub mod tips;
 
-use crate::task;
+// use crate::task;
 
-fn ask() -> bool {
-    // true
-    false
+fn ask((msg, tip): (String, String)) -> bool {
+    use inquire::Confirm;
+
+    let ans = Confirm::new(&msg)
+        .with_default(true)
+        .with_help_message(&tip)
+        .prompt();
+
+    match ans {
+        Ok(true) => true,
+        _ => false,
+    }
 }
 
 fn cond_connect(cond: bool) {
@@ -32,11 +41,11 @@ pub fn run(yes_to_all: bool) {
         // task::up_aegis_apps(1);
         println!("task::up_aegis_apps(1)...");
     } else {
-        if autofixable::vpn::is_disconnected() {
-            cond_connect(ask());
+        if let Some((msg, tip)) = autofixable::vpn::is_disconnected() {
+            cond_connect(ask((msg, tip)));
         }
-        if task::docker_ps_format_id_names().is_empty() {
-            cond_up_aegis_apps(ask());
+        if let Some((msg, tip)) = autofixable::aegis_apps_is_empty() {
+            cond_up_aegis_apps(ask((msg, tip)));
         }
     }
 }

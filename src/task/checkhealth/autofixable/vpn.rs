@@ -8,7 +8,7 @@ pub fn state_output() -> String {
     match output {
         Ok(Output { stdout: bytes, .. }) => {
             let s = String::from_utf8(bytes).unwrap_or_default();
-            println!("INFO: {:?}", s);
+            // println!("INFO: {:?}", s);
             s
         }
         e => {
@@ -18,8 +18,14 @@ pub fn state_output() -> String {
     }
 }
 
-pub fn is_disconnected() -> bool {
-    state_output().contains("Disconnected")
+pub fn is_disconnected() -> Option<(String, String)> {
+    if state_output().contains("Disconnected") {
+        return Some((
+            String::from("No aegis apps running. Start?"),
+            String::from("aegis start 1"),
+        ));
+    }
+    None
 }
 
 pub fn disconnect() {

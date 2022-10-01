@@ -21,8 +21,8 @@ pub fn state_output() -> String {
 pub fn is_disconnected() -> Option<(String, String)> {
     if state_output().contains("Disconnected") {
         return Some((
-            String::from("No aegis apps running. Start?"),
-            String::from("aegis start 1"),
+            String::from("VPN state is disconnected. Connect?"),
+            String::from("vpnmbiz"),
         ));
     }
     None

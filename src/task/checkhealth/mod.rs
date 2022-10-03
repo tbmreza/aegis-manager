@@ -19,15 +19,21 @@ fn ask((msg, tip): (String, String)) -> bool {
 
 fn cond_connect(cond: bool) {
     if cond {
-        autofixable::vpn::connect();
-        // println!("autofixable::vpn::connect()...");
+        if cfg!(feature = "dummy") {
+            println!("autofixable::vpn::connect()...");
+        } else {
+            autofixable::vpn::connect();
+        }
     }
 }
 
 fn cond_up_aegis_apps(cond: bool) {
     if cond {
-        task::up_aegis_apps(1);
-        // println!("task::up_aegis_apps(1)...");
+        if cfg!(feature = "dummy") {
+            println!("task::up_aegis_apps(1)...");
+        } else {
+            task::up_aegis_apps(1);
+        }
     }
 }
 
@@ -35,11 +41,17 @@ pub fn run(yes_to_all: bool) {
     tips::check();
 
     if yes_to_all {
-        autofixable::vpn::connect();
-        // println!("autofixable::vpn::connect()...");
+        if cfg!(feature = "dummy") {
+            println!("autofixable::vpn::connect()...");
+        } else {
+            autofixable::vpn::connect();
+        }
 
-        task::up_aegis_apps(1);
-        // println!("task::up_aegis_apps(1)...");
+        if cfg!(feature = "dummy") {
+            println!("task::up_aegis_apps(1)...");
+        } else {
+            task::up_aegis_apps(1);
+        }
     } else {
         if let Some((msg, tip)) = autofixable::vpn::is_disconnected() {
             cond_connect(ask((msg, tip)));
